@@ -1,0 +1,30 @@
+{
+    "name": "superpms/pms-redis",
+    "license": "Apache-2.0",
+    "description": "pms redisClient",
+    "autoload": {
+        "psr-4": {
+            "pms\\": "src/"
+        },
+        "files": [
+            "stubs/load_stubs.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Guest",
+            "email": "2434981942@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "swoole/ide-helper": "dev-master",
+        "ext-redis": "*",
+        "ext-mbstring": "*"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
