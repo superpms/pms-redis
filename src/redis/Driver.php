@@ -1,6 +1,6 @@
 <?php
 
-namespace pms;
+namespace pms\redis;
 
 use InvalidArgumentException;
 
@@ -34,12 +34,12 @@ class RDbManager
 {
 
     protected array $connectors = [
-        'redis' => redis\connector\Redis::class,
-        'redis-pool' => redis\connector\RedisPool::class,
+        'redis' => connector\Redis::class,
+        'redis-pool' => connector\RedisPool::class,
     ];
 
     protected array $builders = [
-        'redis' => redis\builder\Redis::class,
+        'redis' => builder\Redis::class,
     ];
 
     /**
