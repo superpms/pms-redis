@@ -187,20 +187,20 @@ class Redis
 
     /**
      * Redis分布式锁 锁定
-     * @param string $name
-     * @param int $occupy
-     * @param int $putup
+     * @param string $name 锁名称
+     * @param int $occupy 占锁时间（秒）
+     * @param int $pause 抢锁间隔时间
      * @return void
      */
-    public function lock(string $name, int $occupy = 3, int $putup = 50)
+    public function lock(string $name, int $occupy = 3, int $pause = 50): void
     {
         $name = 'lock:' . $name;
         $name = $this->cacheKey($name);
         $last = $occupy + time();
-        $putup *= 1000;
-        // 如果抢占失败再挂起 ($putup) 毫秒
+        $pause *= 1000;
+        // 如果抢占失败再挂起 ($pause) 毫秒
         do {
-            usleep($putup); //暂停 ($putup) 毫秒
+            usleep($pause); //暂停 ($pause) 毫秒
             //防止当持有锁的进程崩溃或删除锁失败时，其他进程将无法获取到锁
             $lock_time = $this->handler->get($name);
             // 锁已过期，重置
@@ -216,7 +216,8 @@ class Redis
      * @param string $name
      * @return void
      */
-    public function unlock(string $name){
+    public function unlock(string $name): void
+    {
         $name = 'lock:'.$name;
         $name = $this->cacheKey($name);
         $this->handler->del($name);
@@ -228,7 +229,7 @@ class Redis
      * @param \Closure $callback
      * @return mixed
      */
-    public function setnxDCS(string $name, \Closure $callback): mixed
+    public function setnxDCS(string $name, \Closure $callback, int $expireTime = 0): mixed
     {
         $name = $this->cacheKey($name);
         $data = $this->handler->get($name);
@@ -237,7 +238,6 @@ class Redis
             // 当前进程进行设置缓存
             if($this->handler->setnx($lockName, (time() + 3))){
                 $this->handler->expire($lockName,5);
-                $expireTime = 0;
                 $data = $callback(function ($number) use(&$expireTime){
                     $expireTime = $number;
                 });
@@ -270,9 +270,9 @@ class Redis
      * 判断 key 是否存在
      * @param string $key
      * @param ...$other_keys
-     * @return bool
+     * @return bool|int
      */
-    public function exists(string $key, ...$other_keys): bool{
+    public function exists(string $key, ...$other_keys): bool|int{
         $key = $this->cacheKey($key);
         return $this->handler->exists($key,...$other_keys);
     }
