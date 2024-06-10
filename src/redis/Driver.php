@@ -30,7 +30,7 @@ use InvalidArgumentException;
  * @method  bool|array hGetAll($key) 返回哈希表所有行。
  * @method  bool|int hDel($key, $hashKey) 删除哈希表指定行。
  */
-class RDbManager
+class Driver
 {
 
     protected array $connectors = [
