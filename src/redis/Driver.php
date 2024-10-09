@@ -16,7 +16,7 @@ use InvalidArgumentException;
  * @method  bool deleteFolder(string $key) 删除文件夹下所有缓存
  * @method  void lock(string $name, int $occupy = 3, int $putup = 50) Redis分布式锁 锁定
  * @method  void unlock(string $name) Redis分布式锁 解锁
- * @method  mixed setnxDCS(string $name, \Closure $caallback, $expire = null) 如果缓存存在，读取缓存，如果不存在，Redis分布式锁型创建缓存
+ * @method  mixed setnxDCS(string $name, \Closure $callback, $expire = null) 如果缓存存在，读取缓存，如果不存在，Redis分布式锁型创建缓存
  * @method  bool|int exists(string $key, ...$other_keys) 判断 key 是否存在
  * @method  bool|mixed lPush(string $key, ...$value1) 将字符串值添加到列表的开头（左侧）。如果键不存在，则创建列表。如果键存在并且不是列表，则返回FALSE。
  * @method  bool|mixed lPop(string $key) 返回并删除列表的第一个元素。

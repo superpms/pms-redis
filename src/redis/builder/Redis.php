@@ -227,6 +227,7 @@ class Redis
      * 如果缓存存在，读取缓存，如果不存在，Redis抢占式创建缓存（在并发情况下,只会有一个进程创建缓存,其余进程阻塞等待）
      * @param string $name
      * @param \Closure $callback
+     * @param int $expireTime 缓存过期时间
      * @return mixed
      */
     public function setnxDCS(string $name, \Closure $callback, int $expireTime = 0): mixed
@@ -242,7 +243,7 @@ class Redis
                     $expireTime = $number;
                 });
                 if($data !== false && $data !== null && $data !== ""){
-                    $this->handler->set($name,json_encode($data, 320) , $expireTime);
+                    $this->set($name,json_encode($data, 320) , $expireTime);
                     $this->handler->del($lockName);
                 }
             }else{
