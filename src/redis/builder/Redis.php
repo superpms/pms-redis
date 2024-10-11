@@ -23,7 +23,7 @@ class Redis
     public function cacheKey($key): string{
         // 如果传入的名称已存在前缀
         if (str_starts_with($key, $this->prefix)) {
-            return substr($key, mb_strlen($this->prefix), mb_strlen($key));
+            return $key;
         }
         return $this->prefix.$key;
     }
